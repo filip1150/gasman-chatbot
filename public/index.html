@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gas Man Ottawa — HVAC, Furnaces, AC & Gas Services</title>
+<meta name="description" content="Ottawa's trusted HVAC contractor since 2004. Furnaces, air conditioning, heat pumps, water heaters, gas piping. Free estimates. TSSA Licensed.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange: #E8531E;
+    --orange-dark: #c94518;
+    --black: #1a1a1a;
+    --grey: #f8f8f8;
+    --text: #333;
+    --muted: #666;
+    --white: #fff;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text); line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 500;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 70px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-flame { font-size: 28px; }
+  .logo-text { color: white; }
+  .logo-text strong { display: block; font-size: 18px; font-weight: 800; color: var(--orange); letter-spacing: -0.3px; }
+  .logo-text span { font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
+  nav { display: flex; align-items: center; gap: 32px; }
+  nav a { color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 500; transition: color 0.15s; }
+  nav a:hover { color: var(--orange); }
+  .header-cta { display: flex; align-items: center; gap: 16px; }
+  .phone-link { color: white; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .phone-link:hover { color: var(--orange); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s, transform 0.1s; border: none; }
+  .btn:active { transform: scale(0.97); }
+  .btn-orange { background: var(--orange); color: white; }
+  .btn-orange:hover { background: var(--orange-dark); }
+  .btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.3); }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-lg { padding: 14px 32px; font-size: 16px; border-radius: 8px; }
+
+  /* ── Hero ── */
+  #hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d1f0e 60%, #3d2510 100%);
+    min-height: 600px;
+    display: flex; align-items: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '🔥';
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 280px;
+    opacity: 0.06;
+    user-select: none;
+    pointer-events: none;
+  }
+  .hero-content { max-width: 640px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,83,30,0.15);
+    border: 1px solid rgba(232,83,30,0.3);
+    color: var(--orange);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .hero-badge::before { content: '✓'; }
+  #hero h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  #hero h1 span { color: var(--orange); }
+  #hero p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 36px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 40px; }
+  .hero-trust {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.65); font-size: 13px; }
+  .trust-item strong { color: white; }
+
+  /* ── Section common ── */
+  section { padding: 80px 40px; }
+  .section-label {
+    display: inline-block;
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: var(--black); line-height: 1.2; margin-bottom: 16px; }
+  .section-intro { font-size: 17px; color: var(--muted); max-width: 580px; line-height: 1.7; }
+  .center { text-align: center; }
+  .center .section-intro { margin: 0 auto; }
+
+  /* ── Services ── */
+  #services { background: var(--grey); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .service-card {
+    background: white;
+    border-radius: 14px;
+    padding: 32px 28px;
+    border: 1px solid #e8e8e8;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
+  .service-icon { font-size: 36px; margin-bottom: 16px; }
+  .service-card h3 { font-size: 18px; font-weight: 800; color: var(--black); margin-bottom: 10px; }
+  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .service-price { font-size: 13px; font-weight: 700; color: var(--orange); }
+  .service-card a { color: var(--orange); font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+  .service-card a:hover { text-decoration: underline; }
+
+  /* ── Why choose us ── */
+  #why { background: white; }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .why-item { text-align: center; padding: 24px 16px; }
+  .why-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #fff3ee, #ffe4d6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+  }
+  .why-item h3 { font-size: 16px; font-weight: 800; color: var(--black); margin-bottom: 8px; }
+  .why-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── Estimate CTA banner ── */
+  #estimate {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    padding: 64px 40px;
+    text-align: center;
+  }
+  #estimate h2 { color: white; margin-bottom: 12px; }
+  #estimate p { color: rgba(255,255,255,0.88); font-size: 18px; margin-bottom: 32px; }
+  #estimate .btn-white {
+    background: white;
+    color: var(--orange);
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 800;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  #estimate .btn-white:hover { transform: scale(1.03); }
+  #estimate .estimate-note { margin-top: 16px; color: rgba(255,255,255,0.7); font-size: 14px; }
+
+  /* ── Areas ── */
+  #areas { background: var(--grey); }
+  .areas-list {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 32px;
+  }
+  .area-tag {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* ── Contact ── */
+  #contact { background: var(--black); padding: 64px 40px; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .contact-item { text-align: center; }
+  .contact-icon { font-size: 32px; margin-bottom: 12px; }
+  .contact-item h3 { color: var(--orange); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .contact-item p, .contact-item a { color: rgba(255,255,255,0.8); font-size: 15px; line-height: 1.6; }
+  .contact-item a:hover { color: var(--orange); }
+  .contact-item .big { font-size: 22px; font-weight: 800; color: white; }
+
+  /* ── Footer ── */
+  footer {
+    background: #111;
+    padding: 24px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer p { color: rgba(255,255,255,0.4); font-size: 13px; }
+  footer a { color: rgba(255,255,255,0.4); font-size: 13px; }
+  footer a:hover { color: var(--orange); }
+
+  /* ── Hamburger (mobile nav) ── */
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; color: white; padding: 4px; }
+  .menu-toggle svg { width: 24px; height: 24px; }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    header { padding: 0 20px; }
+    nav { display: none; position: absolute; top: 70px; left: 0; right: 0; background: #1a1a1a; flex-direction: column; align-items: flex-start; padding: 20px; gap: 20px; z-index: 400; }
+    nav.open { display: flex; }
+    nav a { font-size: 16px; }
+    .menu-toggle { display: block; }
+    .header-cta .btn { display: none; }
+    section { padding: 60px 20px; }
+    #hero { padding: 60px 20px; min-height: auto; }
+    #hero::before { display: none; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn { justify-content: center; }
+    footer { padding: 20px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <span class="logo-flame">🔥</span>
+    <div class="logo-text">
+      <strong>Gas Man Ottawa</strong>
+      <span>Heating · Cooling · Gas</span>
+    </div>
+  </div>
+  <nav id="main-nav">
+    <a href="#services">Services</a>
+    <a href="#why">About Us</a>
+    <a href="#areas">Service Areas</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="header-cta">
+    <a href="tel:6138803888" class="phone-link">📞 (613) 880-3888</a>
+    <a href="#contact" class="btn btn-orange">Free Estimate</a>
+  </div>
+  <button class="menu-toggle" onclick="document.getElementById('main-nav').classList.toggle('open')" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+  </button>
+</header>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Ottawa's Trusted HVAC Experts Since 2004</div>
+    <h1>Heating, Cooling &amp;<br><span>Gas Services</span><br>Done Right</h1>
+    <p>From new furnace installations to emergency no-heat calls, Gas Man Ottawa keeps your home comfortable year-round. TSSA Licensed. Fully Insured. Free Estimates.</p>
+    <div class="hero-actions">
+      <a href="tel:6138803888" class="btn btn-orange btn-lg">📞 Call (613) 880-3888</a>
+      <a href="#services" class="btn btn-outline btn-lg">View Our Services</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><strong>✓</strong> TSSA Licensed</div>
+      <div class="trust-item"><strong>✓</strong> 1-Year Installation Guarantee</div>
+      <div class="trust-item"><strong>✓</strong> Free Estimates</div>
+      <div class="trust-item"><strong>✓</strong> Same-Day Emergency Service</div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="center">
+    <span class="section-label">What We Do</span>
+    <h2>Complete HVAC &amp; Gas Services</h2>
+    <p class="section-intro">We supply, install, and service all major brands. If it runs on gas or keeps your home comfortable, we do it.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🌡️</div>
+      <h3>Furnace Installation &amp; Repair</h3>
+      <p>High-efficiency furnaces from Rheem, Carrier, Goodman, Trane and more. Single-stage, two-stage, and modulating systems.</p>
+      <div class="service-price">From $3,500 installed · Free Estimate</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">❄️</div>
+      <h3>Air Conditioning</h3>
+      <p>Central AC, ductless mini-splits, and heat pumps. Stay cool all summer with an energy-efficient system sized for your home.</p>
+      <div class="service-price">From $3,800 installed · Free Estimate</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">♨️</div>
+      <h3>Heat Pumps</h3>
+      <p>Cold-climate heat pumps that work down to -25°C. Heat in winter, cool in summer. Qualify for up to $7,500 in rebates.</p>
+      <div class="service-price">From $5,500 installed · Up to $7,500 rebate</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚿</div>
+      <h3>Tankless Water Heaters</h3>
+      <p>Endless hot water on demand. Space-saving, energy-efficient. We size, supply, and install for your household's needs.</p>
+      <div class="service-price">Install &amp; supply available · Free Estimate</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Gas Piping</h3>
+      <p>Schedule 40 black steel pipe only — the safest option. BBQ hookups, pool heaters, gas stoves, fireplaces, and more.</p>
+      <div class="service-price">BBQ lines from $200 · Free Estimate</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔥</div>
+      <h3>Gas Fireplaces</h3>
+      <p>Napoleon, Majestic, Regency, and more. Installation, service, and annual maintenance for all gas fireplace types.</p>
+      <div class="service-price">From $2,500 installed · Free Estimate</div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section id="why">
+  <div class="center">
+    <span class="section-label">Why Gas Man Ottawa</span>
+    <h2>We Do It Right or We Make It Right</h2>
+    <p class="section-intro">Founded in 2004 by Jeff, Gas Man Ottawa has built a reputation on honest work, fair prices, and standing behind every installation.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon">🛡️</div>
+      <h3>TSSA Licensed &amp; Insured</h3>
+      <p>All work meets Ontario gas codes. Fully insured for your peace of mind.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">📋</div>
+      <h3>1-Year Installation Guarantee</h3>
+      <p>If anything goes wrong due to our installation, we fix it free. Plus lifetime warranty on installation errors.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🎁</div>
+      <h3>Authorized Warranty Service</h3>
+      <p>If equipment fails under manufacturer warranty, we bill the manufacturer — not you.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">⚡</div>
+      <h3>Same-Day Emergency Calls</h3>
+      <p>No heat in Ottawa winter? We prioritize emergency calls and get there fast.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💰</div>
+      <h3>Free Estimates</h3>
+      <p>A technician visits your home, assesses your needs, and gives you an honest quote. No obligation.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🇫🇷</div>
+      <h3>English &amp; French Service</h3>
+      <p>Serving all of Ottawa in both official languages since 2004.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<section id="estimate">
+  <h2>Ready for a Free Estimate?</h2>
+  <p>Our technicians come to your home, assess your needs, and give you an honest quote — no pressure, no obligation.</p>
+  <a href="tel:6138803888" class="btn-white">📞 Call (613) 880-3888</a>
+  <p class="estimate-note">Or chat with our AI assistant below — available 24/7 →</p>
+</section>
+
+<!-- Service Areas -->
+<section id="areas">
+  <span class="section-label">Where We Work</span>
+  <h2>Serving Ottawa &amp; Surrounding Areas</h2>
+  <p class="section-intro">We cover the entire Ottawa region. Not sure if we service your area? Just ask!</p>
+  <div class="areas-list">
+    <span class="area-tag">Orleans</span>
+    <span class="area-tag">Kanata</span>
+    <span class="area-tag">Barrhaven</span>
+    <span class="area-tag">Nepean</span>
+    <span class="area-tag">Gloucester</span>
+    <span class="area-tag">Manotick</span>
+    <span class="area-tag">Rockland</span>
+    <span class="area-tag">Cumberland</span>
+    <span class="area-tag">Limoges</span>
+    <span class="area-tag">Embrun</span>
+    <span class="area-tag">Vanier</span>
+    <span class="area-tag">South Keys</span>
+    <span class="area-tag">Stittsville</span>
+    <span class="area-tag">Bells Corners</span>
+    <span class="area-tag">Blackburn Hamlet</span>
+    <span class="area-tag">Beacon Hill</span>
+    <span class="area-tag">Hunt Club</span>
+    <span class="area-tag">Greely</span>
+    <span class="area-tag">Bridlewood</span>
+    <span class="area-tag">+ Rural Areas</span>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="center" style="margin-bottom:48px">
+    <h2 style="color:white">Get In Touch</h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:17px">We respond fast. Emergencies answered immediately.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-icon">📞</div>
+      <h3>Phone</h3>
+      <a href="tel:6138803888" class="big">(613) 880-3888</a>
+      <p style="margin-top:6px;font-size:13px">Emergency line — 24/7</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <h3>Email</h3>
+      <a href="mailto:jeff@gasmanottawa.com">jeff@gasmanottawa.com</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📍</div>
+      <h3>Address</h3>
+      <p>6770 Breanna Cardill St<br>Greely, ON K4P 0C3</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">🌐</div>
+      <h3>Website</h3>
+      <a href="https://gasmanottawa.com" target="_blank" rel="noopener">gasmanottawa.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2024 Gas Man Ottawa Inc. — TSSA Licensed · Fully Insured · Founded 2004</p>
+  <div style="display:flex;gap:20px">
+    <a href="/admin">Admin</a>
+    <a href="tel:6138803888">(613) 880-3888</a>
+  </div>
+</footer>
+
+<!-- Chat Widget -->
+<script src="/widget/gasman-chat.js"></script>
+
+</body>
+</html>

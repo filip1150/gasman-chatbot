@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(pip show:*)",
+      "Bash(python -c ':*)",
+      "Bash(pip uninstall:*)",
+      "Bash(python backend/seed_data.py)",
+      "Bash(python backend/main.py)",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}
