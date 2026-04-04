@@ -47,7 +47,7 @@ def list_all_vectors() -> list[dict]:
     index = get_pinecone_index()
     namespace = os.environ.get("PINECONE_NAMESPACE", "gasman").strip()
     try:
-        all_ids = [v for v in index.list(namespace=namespace)]
+        all_ids = [vid for page in index.list(namespace=namespace) for vid in page]
         if not all_ids:
             return []
         fetched = index.fetch(ids=all_ids, namespace=namespace)
