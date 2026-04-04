@@ -6,8 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-import traceback
-from fastapi import FastAPI, Depends, HTTPException, status, Request
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -24,9 +23,6 @@ from knowledge_base import get_all_entries, create_entry, update_entry, delete_e
 
 app = FastAPI(title="Gas Man Ottawa Chat API")
 
-@app.exception_handler(Exception)
-async def debug_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(status_code=500, content={"error": str(exc), "trace": traceback.format_exc()})
 
 app.add_middleware(
     CORSMiddleware,
@@ -76,8 +72,8 @@ def require_admin(credentials: HTTPAuthorizationCredentials = Depends(security))
 
 @app.post("/api/admin/login")
 def login(req: LoginRequest):
-    admin_user = os.environ.get("ADMIN_USERNAME", "admin")
-    admin_pass = os.environ.get("ADMIN_PASSWORD", "gasman2024")
+    admin_user = os.environ.get("ADMIN_USERNAME", "admin").strip()
+    admin_pass = os.environ.get("ADMIN_PASSWORD", "gasman2024").strip()
     if req.username != admin_user or req.password != admin_pass:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return {"token": create_token(req.username)}
@@ -355,13 +351,13 @@ class BookingRequest(BaseModel):
 
 
 def send_booking_email(req: BookingRequest):
-    resend_key = os.environ.get("RESEND_API_KEY")
+    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
     to_email = os.environ.get("FEEDBACK_EMAIL", "filip1150@gmail.com")
     if not resend_key:
         return
     try:
         import resend as resend_lib
-        resend_lib.api_key = resend_key
+        resend_lib.api_key = resend_key.strip()
         body = f"""NEW BOOKING REQUEST — Gas Man Ottawa Chatbot
 
 Name:           {req.name}

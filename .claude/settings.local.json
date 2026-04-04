@@ -17,7 +17,9 @@
       "Bash(curl -s https://gasman-phi.vercel.app/api/widget/config)",
       "Bash(vercel logs:*)",
       "Bash(vercel inspect:*)",
-      "Bash(vercel curl:*)"
+      "Bash(vercel curl:*)",
+      "Bash(curl -sv https://gasman-phi.vercel.app/api/widget/config)",
+      "Bash(curl:*)"
     ]
   }
 }
