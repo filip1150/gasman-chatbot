@@ -1,7 +1,27 @@
 import uuid
 from sqlalchemy.orm import Session
 from database import KnowledgeEntry
-from embeddings import embed_text, upsert_vector, delete_vector
+from embeddings import embed_text, upsert_vector, delete_vector, list_all_vectors
+
+
+def sync_from_pinecone(db: Session) -> int:
+    """Repopulate SQLite from Pinecone if the local DB is empty (Vercel cold start)."""
+    existing = db.query(KnowledgeEntry).count()
+    if existing > 0:
+        return existing
+    vectors = list_all_vectors()
+    for v in vectors:
+        if not v.get("title") or not v.get("content"):
+            continue
+        entry = KnowledgeEntry(
+            id=v["id"],
+            category=v.get("category", "General"),
+            title=v["title"],
+            content=v["content"],
+        )
+        db.merge(entry)
+    db.commit()
+    return len(vectors)
 
 
 def get_all_entries(db: Session) -> list[KnowledgeEntry]:

@@ -42,6 +42,29 @@ def delete_vector(vector_id: str):
     index.delete(ids=[vector_id], namespace=namespace)
 
 
+def list_all_vectors() -> list[dict]:
+    """Fetch all vectors from Pinecone (used to resync SQLite on cold start)."""
+    index = get_pinecone_index()
+    namespace = os.environ.get("PINECONE_NAMESPACE", "gasman").strip()
+    try:
+        all_ids = [v for v in index.list(namespace=namespace)]
+        if not all_ids:
+            return []
+        fetched = index.fetch(ids=all_ids, namespace=namespace)
+        results = []
+        for vid, vec in fetched.vectors.items():
+            m = vec.metadata or {}
+            results.append({
+                "id": vid,
+                "category": m.get("category", ""),
+                "title": m.get("title", ""),
+                "content": m.get("content", ""),
+            })
+        return results
+    except Exception:
+        return []
+
+
 def query_vectors(embedding: list[float], top_k: int = 6) -> list[dict]:
     index = get_pinecone_index()
     namespace = os.environ.get("PINECONE_NAMESPACE", "gasman")

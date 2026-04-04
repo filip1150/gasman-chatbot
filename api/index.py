@@ -12,8 +12,15 @@ _error_msg = None
 try:
     from dotenv import load_dotenv
     load_dotenv(os.path.join(_root, ".env"))
-    from backend.database import init_db
+    from backend.database import init_db, SessionLocal
+    from backend.knowledge_base import sync_from_pinecone
     init_db()
+    # Repopulate SQLite from Pinecone on every cold start (ephemeral /tmp)
+    _db = SessionLocal()
+    try:
+        sync_from_pinecone(_db)
+    finally:
+        _db.close()
     from backend.main import app as _fastapi_app
     from a2wsgi import ASGIMiddleware
     _wsgi_app = ASGIMiddleware(_fastapi_app)
