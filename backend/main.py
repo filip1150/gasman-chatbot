@@ -19,7 +19,7 @@ from database import (
     AIInstructions, KnowledgeEntry, Conversation, Message, Lead,
 )
 from chat import process_chat, get_instructions, DEFAULT_INSTRUCTIONS
-from knowledge_base import get_all_entries, create_entry, update_entry, delete_entry
+from knowledge_base import get_all_entries, create_entry, update_entry, delete_entry, sync_from_pinecone
 
 app = FastAPI(title="Gas Man Ottawa Chat API")
 
@@ -160,6 +160,12 @@ def remove_knowledge(entry_id: str, db: Session = Depends(get_db), _: str = Depe
     if not ok:
         raise HTTPException(status_code=404, detail="Entry not found")
     return {"ok": True}
+
+
+@app.post("/api/admin/knowledge-base/sync")
+def sync_knowledge(db: Session = Depends(get_db), _: str = Depends(require_admin)):
+    count = sync_from_pinecone(db, force=True)
+    return {"ok": True, "synced": count}
 
 
 # ─── Admin — AI Instructions ─────────────────────────────────────────────────

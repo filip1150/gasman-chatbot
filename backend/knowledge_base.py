@@ -4,12 +4,16 @@ from database import KnowledgeEntry
 from embeddings import embed_text, upsert_vector, delete_vector, list_all_vectors
 
 
-def sync_from_pinecone(db: Session) -> int:
-    """Repopulate SQLite from Pinecone if the local DB is empty (Vercel cold start)."""
-    existing = db.query(KnowledgeEntry).count()
-    if existing > 0:
-        return existing
+def sync_from_pinecone(db: Session, force: bool = False) -> int:
+    """Repopulate SQLite from Pinecone. On cold start runs only when empty; force=True always re-syncs."""
+    if not force:
+        existing = db.query(KnowledgeEntry).count()
+        if existing > 0:
+            return existing
     vectors = list_all_vectors()
+    # Delete entries no longer in Pinecone
+    pinecone_ids = {v["id"] for v in vectors if v.get("title") and v.get("content")}
+    db.query(KnowledgeEntry).filter(~KnowledgeEntry.id.in_(pinecone_ids)).delete(synchronize_session=False)
     for v in vectors:
         if not v.get("title") or not v.get("content"):
             continue

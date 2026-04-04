@@ -537,7 +537,10 @@ function renderKnowledge() {
         '<input class="search-input" placeholder="Search entries..." oninput="filterKB(this.value)" value="' + esc(kbFilter) + '">',
         '<span style="font-size:13px;color:#6b7280">' + filtered.length + ' entries</span>',
       '</div>',
-      '<button class="btn btn-primary" onclick="openAddEntry()">+ Add Entry</button>',
+      '<div style="display:flex;gap:8px">',
+        '<button class="btn btn-secondary" id="sync-btn" onclick="syncKB()">↻ Sync from Pinecone</button>',
+        '<button class="btn btn-primary" onclick="openAddEntry()">+ Add Entry</button>',
+      '</div>',
     '</div>',
   ];
 
@@ -567,6 +570,20 @@ function renderKnowledge() {
   }
 
   document.getElementById('main-content').innerHTML = html.join('');
+}
+
+function syncKB() {
+  var btn = document.getElementById('sync-btn');
+  if (btn) { btn.textContent = '↻ Syncing...'; btn.disabled = true; }
+  api('POST', '/api/admin/knowledge-base/sync')
+    .then(function(d) {
+      toast('Synced ' + d.synced + ' entries from Pinecone', 'success');
+      loadKnowledge();
+    })
+    .catch(function() {
+      toast('Sync failed', 'error');
+      if (btn) { btn.textContent = '↻ Sync from Pinecone'; btn.disabled = false; }
+    });
 }
 
 function filterKB(val) {
