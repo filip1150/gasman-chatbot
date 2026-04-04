@@ -3,13 +3,15 @@ import os
 import json
 import traceback
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, _root)
+sys.path.insert(0, os.path.join(_root, "backend"))  # so "from database import" works
 
 _error_msg = None
 
 try:
     from dotenv import load_dotenv
-    load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
+    load_dotenv(os.path.join(_root, ".env"))
     from backend.database import init_db
     init_db()
     from backend.main import app as _fastapi_app
