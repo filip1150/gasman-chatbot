@@ -8,7 +8,15 @@
       "Bash(python backend/seed_data.py)",
       "Bash(python backend/main.py)",
       "Bash(curl -s http://localhost:8000/)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(gh repo:*)",
+      "Bash(vercel --yes)",
+      "Bash(vercel env:*)",
+      "Bash(vercel --prod)",
+      "Bash(curl -s https://gasman-phi.vercel.app/)",
+      "Bash(curl -s https://gasman-phi.vercel.app/api/widget/config)",
+      "Bash(vercel logs:*)",
+      "Bash(vercel inspect:*)"
     ]
   }
 }
