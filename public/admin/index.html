@@ -278,6 +278,51 @@
   .pagination button:disabled { opacity: 0.4; cursor: default; }
   .pagination button.current { background: var(--orange); color: white; border-color: var(--orange); }
   .pagination span { font-size: 13px; color: var(--muted); }
+
+  /* Mobile */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 12px;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: 0.2s;
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+    }
+    .sidebar.mobile-open { transform: translateX(0); }
+    .sidebar-overlay.mobile-open { display: block; }
+    .main { margin-left: 0; }
+    .topbar { padding: 0 16px; }
+    .content { padding: 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    .card-header { padding: 14px 16px; flex-wrap: wrap; gap: 8px; }
+    .card-body { padding: 16px; }
+    .table-wrap { overflow-x: auto; }
+    table { min-width: 500px; }
+  }
 </style>
 </head>
 <body>
@@ -333,9 +378,15 @@
       </div>
     </nav>
 
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
     <!-- Main -->
     <div class="main">
       <div class="topbar">
+        <button class="hamburger" onclick="openSidebar()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
         <h1 id="page-title">Dashboard</h1>
       </div>
       <div class="content" id="main-content">
@@ -415,8 +466,18 @@ function api(method, path, body) {
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 
+function openSidebar() {
+  document.querySelector('.sidebar').classList.add('mobile-open');
+  document.getElementById('sidebar-overlay').classList.add('mobile-open');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebar-overlay').classList.remove('mobile-open');
+}
+
 function navigate(section) {
   currentSection = section;
+  closeSidebar();
   document.querySelectorAll('.nav-item').forEach(function(el) {
     el.classList.toggle('active', el.dataset.section === section);
   });
