@@ -570,6 +570,13 @@ function renderKnowledge() {
   }
 
   document.getElementById('main-content').innerHTML = html.join('');
+
+  // Restore focus to search input if it was active before re-render
+  var searchInput = document.querySelector('.search-input');
+  if (searchInput && kbFilter) {
+    searchInput.focus();
+    searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+  }
 }
 
 function syncKB() {
