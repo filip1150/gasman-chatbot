@@ -5,9 +5,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
 import os as _os
-SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/gasman.db" if _os.environ.get("VERCEL") else "sqlite:///./gasman.db"
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+_db_url = _os.environ.get("POSTGRES_URL") or _os.environ.get("DATABASE_URL")
+if _db_url:
+    # Vercel Postgres / Neon — use pg8000 (pure Python, no native libs needed on Vercel)
+    _db_url = _db_url.replace("postgres://", "postgresql+pg8000://").replace("postgresql://", "postgresql+pg8000://")
+    engine = create_engine(_db_url)
+else:
+    _sqlite_path = "sqlite:////tmp/gasman.db" if _os.environ.get("VERCEL") else "sqlite:///./gasman.db"
+    engine = create_engine(_sqlite_path, connect_args={"check_same_thread": False})
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
